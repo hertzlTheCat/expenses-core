@@ -22,6 +22,10 @@ public class ExpenseBook {
       this.transactions.add(new Income(amount, description, category, time));
    }
 
+   public void addTransaction(Transaction t) {
+      this.transactions.add(t);
+   }
+
    public int balance() {
       int balance = 0;
       for (Transaction t : transactions) {
@@ -32,6 +36,17 @@ public class ExpenseBook {
 
    public Collection<Transaction> getTransactions() {
       return Collections.unmodifiableCollection(this.transactions);
+   }
+
+   public Collection<Transaction> getTransactionsForMonth(int year, int month) {
+      Collection<Transaction> toReturn = new LinkedList<>();
+      for (Transaction t : this.transactions) {
+         DateTime time = t.getTime();
+         if (time.getMonthOfYear() == month && time.getYear() == year) {
+            toReturn.add(t);
+         }
+      }
+      return Collections.unmodifiableCollection(toReturn);
    }
 
 }

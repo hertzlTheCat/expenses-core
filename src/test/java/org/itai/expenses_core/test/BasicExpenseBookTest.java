@@ -41,19 +41,47 @@ public class BasicExpenseBookTest {
 
    @Test
    public void buildBook1() {
-      buildBookAndTest(1000 - 50 - 20,
-            new Transaction[] { new Expense(50, "Lunch", "Food outside", new DateTime(2017, 1, 1, 10, 30)),
-                  new Expense(20, "Book", "Books", new DateTime(2017, 1, 2, 11, 45)),
-                  new Income(1000, "Salary", "Salary", new DateTime(2017, 1, 1, 0, 0)) });
+      buildBookAndTest(1000 - 50 - 20, new Transaction[]
+         {new Expense(50, "Lunch", "Food outside", new DateTime(2017, 1, 1, 10, 30))
+         ,new Expense(20, "Book", "Books", new DateTime(2017, 1, 2, 11, 45))
+         ,new Income(1000, "Salary", "Salary", new DateTime(2017, 1, 1, 0, 0))
+         });
    }
 
    @Test
    public void buildBook2() {
-      buildBookAndTest(460 + 4000 - 50 - 120,
-            new Transaction[] { new Income(460, "Found on the street", "Other", new DateTime(2017, 1, 5, 0, 0)),
-                  new Expense(50, "Lunch", "Food outside", new DateTime(2017, 1, 6, 10, 30)),
-                  new Expense(120, "Massage", "Health", new DateTime(2017, 1, 11, 22, 40)),
-                  new Income(4000, "Salary", "Salary", new DateTime(2017, 1, 1, 0, 0)) });
+      buildBookAndTest(460 + 4000 - 50 - 120, new Transaction[]
+         {new Income(460, "Found on the street", "Other", new DateTime(2017, 1, 5, 0, 0))
+         ,new Expense(50, "Lunch", "Food outside", new DateTime(2017, 1, 6, 10, 30))
+         ,new Expense(120, "Massage", "Health", new DateTime(2017, 1, 11, 22, 40))
+         ,new Income(4000, "Salary", "Salary", new DateTime(2017, 1, 1, 0, 0))
+         });
+   }
+
+   @Test
+   public void getAllTransactionsFromMonth() {
+      Transaction t1 = new Expense(450, "Lunch", "Food", new DateTime(2017, 2, 3, 0, 0));
+      Transaction t2 = new Expense(120, "Massage", "Health", new DateTime(2017, 2, 6, 0, 0));
+      Transaction t3 = new Expense(100, "Trader Joe's", "Food at home", new DateTime(2017, 3, 4, 0, 0));
+      Transaction t4 = new Income(4000, "Salary", "Salary", new DateTime(2017, 2, 1, 0, 0));
+      Transaction t5 = new Income(4000, "Salary", "Salary", new DateTime(2017, 3, 1, 0, 0));
+      ExpenseBook book = new ExpenseBook();
+      book.addTransaction(t1);
+      book.addTransaction(t2);
+      book.addTransaction(t3);
+      book.addTransaction(t4);
+      book.addTransaction(t5);
+
+      Collection<Transaction> inFebruary = book.getTransactionsForMonth(2017, 2);
+      assertEquals(3, inFebruary.size());
+      assertTrue(inFebruary.contains(t1));
+      assertTrue(inFebruary.contains(t2));
+      assertTrue(inFebruary.contains(t4));
+
+      Collection<Transaction> inMarch = book.getTransactionsForMonth(2017, 3);
+      assertEquals(2, inMarch.size());
+      assertTrue(inMarch.contains(t3));
+      assertTrue(inMarch.contains(t5));
    }
 
    private void transactionsAreNotEqual(Transaction t1, Transaction test2) {
