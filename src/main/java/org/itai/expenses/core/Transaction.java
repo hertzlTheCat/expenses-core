@@ -32,6 +32,8 @@ public abstract class Transaction {
       return this.time;
    }
 
+   public abstract int getDelta();
+
    @Override
    public boolean equals(Object obj) {
       if (!(obj instanceof Transaction)) {

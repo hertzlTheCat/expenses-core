@@ -8,6 +8,10 @@ public class Income extends Transaction {
       super(amount, description, category, time);
    }
 
+   public int getDelta() {
+      return +1 * getAmount();
+   }
+
    @Override
    public boolean equals(Object obj) {
       if (!(obj instanceof Income)) {

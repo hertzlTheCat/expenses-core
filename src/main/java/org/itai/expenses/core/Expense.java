@@ -8,6 +8,10 @@ public class Expense extends Transaction {
       super(amount, description, category, time);
    }
 
+   public int getDelta() {
+      return -1 * this.getAmount();
+   }
+
    @Override
    public boolean equals(Object obj) {
       if (!(obj instanceof Expense)) {
