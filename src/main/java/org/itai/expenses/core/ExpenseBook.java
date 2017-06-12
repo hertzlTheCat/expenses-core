@@ -3,6 +3,8 @@ package org.itai.expenses.core;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.joda.time.DateTime;
+
 public class ExpenseBook {
 
 	private Collection<Expense> expenses;
@@ -13,12 +15,12 @@ public class ExpenseBook {
 		this.incomes = new LinkedList<>();
 	}
 	
-	public void addExpense(int amount, String description, String category) {
-		this.expenses.add(new Expense(amount, description, category));
+	public void addExpense(int amount, String description, String category, DateTime time) {
+		this.expenses.add(new Expense(amount, description, category, time));
 	}
 
-	public void addIncome(int amount, String description, String category) {
-		this.incomes.add(new Income(amount, description, category));
+	public void addIncome(int amount, String description, String category, DateTime time) {
+		this.incomes.add(new Income(amount, description, category, time));
 	}
 
 	public int balance() {

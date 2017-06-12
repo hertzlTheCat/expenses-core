@@ -3,4 +3,11 @@
   <groupId>org.itai.expenses</groupId>
   <artifactId>expenses-core</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.9.9</version>
+    </dependency>
+  </dependencies>
 </project>

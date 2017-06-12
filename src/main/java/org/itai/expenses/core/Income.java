@@ -1,9 +1,11 @@
 package org.itai.expenses.core;
 
+import org.joda.time.DateTime;
+
 public class Income extends Transaction {
 
-	public Income(int amount, String description, String category) {
-		super(amount, description, category);
+	public Income(int amount, String description, String category, DateTime time) {
+		super(amount, description, category, time);
 	}
 	
 	@Override
