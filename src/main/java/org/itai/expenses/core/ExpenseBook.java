@@ -3,6 +3,8 @@ package org.itai.expenses.core;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 
@@ -38,14 +40,10 @@ public class ExpenseBook {
       return Collections.unmodifiableCollection(this.transactions);
    }
 
-   public Collection<Transaction> getTransactionsForMonth(int year, int month) {
-      Collection<Transaction> toReturn = new LinkedList<>();
-      for (Transaction t : this.transactions) {
-         DateTime time = t.getTime();
-         if (time.getMonthOfYear() == month && time.getYear() == year) {
-            toReturn.add(t);
-         }
-      }
+   public Collection<Transaction> getTransactionsForMonth(TransactionInMonthCondition condition) {
+      List<Transaction> toReturn = this.transactions.stream()
+         .filter(t -> condition.isMatch(t))
+         .collect(Collectors.toList());
       return Collections.unmodifiableCollection(toReturn);
    }
 
