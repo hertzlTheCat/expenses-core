@@ -12,6 +12,7 @@ import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Income;
 import org.itai.expenses.core.Transaction;
 import org.itai.expenses.core.condition.TransactionCondition;
+import org.itai.expenses.core.condition.TransactionInInclusivePeriodCondition;
 import org.itai.expenses.core.condition.TransactionInMonthCondition;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -98,6 +99,37 @@ public class BasicExpenseBookTest {
       assertEquals(2, inMarch.size());
       assertTrue(inMarch.contains(t3));
       assertTrue(inMarch.contains(t5));
+   }
+
+   @Test
+   public void getAllExpensesInPeriod() {
+      Transaction t1 = new Income(4000, "Salary", "Salary",             new DateTime(2017, 2, 1, 0, 0));
+      Transaction t2 = new Expense(450, "Lunch", "Food",                new DateTime(2017, 2, 10, 0, 0));
+      Transaction t3 = new Expense(120, "Massage", "Health",            new DateTime(2017, 2, 14, 0, 0));
+      Transaction t4 = new Expense(120, "Massage", "Health",            new DateTime(2017, 2, 15, 0, 0));
+      Transaction t5 = new Expense(100, "Trader Joe's", "Food at home", new DateTime(2017, 3, 1, 0, 0));
+      Transaction t6 = new Income(4000, "Salary", "Salary",             new DateTime(2017, 3, 1, 0, 0));
+      Transaction t7 = new Expense(10, "Amazon", "Nails",               new DateTime(2017, 3, 9, 0, 0));
+      Transaction t8 = new Expense(10, "Amazon", "Nails",               new DateTime(2017, 3, 10, 0, 0));
+      ExpenseBook book = new ExpenseBook();
+      book.addTransaction(t1);
+      book.addTransaction(t2);
+      book.addTransaction(t3);
+      book.addTransaction(t4);
+      book.addTransaction(t5);
+      book.addTransaction(t6);
+      book.addTransaction(t7);
+      book.addTransaction(t8);
+
+      DateTime from = new DateTime(2017, 2, 15, 0, 0);
+      DateTime to = new DateTime(2017, 3, 9, 0, 0);
+      TransactionCondition inPeriodCondition = new TransactionInInclusivePeriodCondition(from, to);
+      Collection<Transaction> inPeriod = book.getTransactionsForCondition(inPeriodCondition);
+      assert (inPeriod.contains(t4));
+      assert (inPeriod.contains(t5));
+      assert (inPeriod.contains(t6));
+      assert (inPeriod.contains(t7));
+      assertEquals(4, inPeriod.size());
    }
 
    private void transactionsAreNotEqual(Transaction t1, Transaction test2) {
