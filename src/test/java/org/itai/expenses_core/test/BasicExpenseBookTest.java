@@ -90,10 +90,7 @@ public class BasicExpenseBookTest {
          ,new Expense(120, "Massage", "Health",    new DateTime(2017,12, 31, 0, 0))  //11
          ,new Expense(100, "Plush Toy", "Other",   new DateTime(2018, 1, 1, 0, 0))   //12
          };
-      ExpenseBook book = new ExpenseBook();
-      for (Transaction t : transactions) {
-         book.addTransaction(t);
-      }
+      ExpenseBook book = ExpenseBook.buildBook(Arrays.asList(transactions));
 
       TransactionCondition conditionInFebruary = new TransactionInMonthCondition(2017, 2);
       Collection<Transaction> inFebruary = book.getTransactionsForCondition(conditionInFebruary);
@@ -130,10 +127,7 @@ public class BasicExpenseBookTest {
          ,new Expense(10, "Amazon", "Nails",               new DateTime(2017, 3, 9, 0, 0))  //6
          ,new Expense(10, "Amazon", "Nails",               new DateTime(2017, 3, 10, 0, 0)) //7
          };
-      ExpenseBook book = new ExpenseBook();
-      for (Transaction t : transactions) {
-         book.addTransaction(t);
-      }
+      ExpenseBook book = ExpenseBook.buildBook(Arrays.asList(transactions));
 
       DateTime from = new DateTime(2017, 2, 15, 0, 0);
       DateTime to = new DateTime(2017, 3, 9, 0, 0);
@@ -157,7 +151,14 @@ public class BasicExpenseBookTest {
    }
 
    private void buildBookAndTest(int balance, Transaction[] instructions) {
-      ExpenseBook book = buildBook(instructions);
+      ExpenseBook book1 = buildBookWithExpensesAndIncomes(instructions);
+      testBook(book1, balance, instructions);
+
+      ExpenseBook book2 = ExpenseBook.buildBook(Arrays.asList(instructions));
+      testBook(book2, balance, instructions);
+   }
+
+   private void testBook(ExpenseBook book, int balance, Transaction[] instructions) {
 
       Collection<Transaction> transactions = book.getTransactions();
       for (Transaction i : instructions)
@@ -166,7 +167,7 @@ public class BasicExpenseBookTest {
       assertEquals(balance, book.balance());
    }
 
-   private ExpenseBook buildBook(Transaction[] instructions) {
+   private ExpenseBook buildBookWithExpensesAndIncomes(Transaction[] instructions) {
       ExpenseBook book = new ExpenseBook();
       Arrays.asList(instructions).stream().forEach(t -> addTransaction(book, t));
       return book;

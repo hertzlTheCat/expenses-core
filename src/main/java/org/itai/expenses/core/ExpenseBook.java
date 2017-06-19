@@ -13,6 +13,12 @@ public class ExpenseBook {
 
    private Collection<Transaction> transactions;
 
+   public static ExpenseBook buildBook(Collection<Transaction> transactions) {
+      ExpenseBook book = new ExpenseBook();
+      transactions.stream().forEach(t -> book.addTransaction(t));
+      return book;
+   }
+
    public ExpenseBook() {
       this.transactions = new LinkedList<>();
    }
