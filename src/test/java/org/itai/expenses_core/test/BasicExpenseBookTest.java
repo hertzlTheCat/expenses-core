@@ -41,7 +41,19 @@ public class BasicExpenseBookTest {
    }
 
    @Test
+   public void buildBook0() {
+      buildBookAndTest(0, new Transaction[] {});
+   }
+
+   @Test
    public void buildBook1() {
+      buildBookAndTest(-100, new Transaction[]
+         {new Expense(100, "Lunch", "Food outside", new DateTime(2017, 1, 1, 10, 30))
+         });
+   }
+
+   @Test
+   public void buildBooks2() {
       buildBookAndTest(1000 - 50 - 20, new Transaction[]
          {new Expense(50, "Lunch", "Food outside", new DateTime(2017, 1, 1, 10, 30))
          ,new Expense(20, "Book", "Books", new DateTime(2017, 1, 2, 11, 45))
@@ -50,7 +62,7 @@ public class BasicExpenseBookTest {
    }
 
    @Test
-   public void buildBook2() {
+   public void buildBook3() {
       buildBookAndTest(460 + 4000 - 50 - 120, new Transaction[]
          {new Income(460, "Found on the street", "Other", new DateTime(2017, 1, 5, 0, 0))
          ,new Expense(50, "Lunch", "Food outside", new DateTime(2017, 1, 6, 10, 30))
