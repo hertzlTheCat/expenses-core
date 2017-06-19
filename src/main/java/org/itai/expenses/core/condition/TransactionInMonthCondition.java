@@ -1,8 +1,9 @@
-package org.itai.expenses.core;
+package org.itai.expenses.core.condition;
 
+import org.itai.expenses.core.Transaction;
 import org.joda.time.DateTime;
 
-public class TransactionInMonthCondition {
+public class TransactionInMonthCondition implements TransactionCondition {
 
    private int year;
    private int month;
@@ -12,6 +13,7 @@ public class TransactionInMonthCondition {
       this.month = month;
    }
 
+   @Override
    public boolean isMatch(Transaction transaction) {
       DateTime time = transaction.getTime();
       return time.getYear() == this.year

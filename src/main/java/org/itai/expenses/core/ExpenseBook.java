@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.itai.expenses.core.condition.TransactionCondition;
 import org.joda.time.DateTime;
 
 public class ExpenseBook {
@@ -40,11 +41,10 @@ public class ExpenseBook {
       return Collections.unmodifiableCollection(this.transactions);
    }
 
-   public Collection<Transaction> getTransactionsForMonth(TransactionInMonthCondition condition) {
+   public Collection<Transaction> getTransactionsForCondition(TransactionCondition condition) {
       List<Transaction> toReturn = this.transactions.stream()
          .filter(t -> condition.isMatch(t))
          .collect(Collectors.toList());
       return Collections.unmodifiableCollection(toReturn);
    }
-
 }

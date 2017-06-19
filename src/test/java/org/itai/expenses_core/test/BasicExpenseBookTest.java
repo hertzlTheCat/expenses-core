@@ -11,7 +11,8 @@ import org.itai.expenses.core.Expense;
 import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Income;
 import org.itai.expenses.core.Transaction;
-import org.itai.expenses.core.TransactionInMonthCondition;
+import org.itai.expenses.core.condition.TransactionCondition;
+import org.itai.expenses.core.condition.TransactionInMonthCondition;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -85,13 +86,15 @@ public class BasicExpenseBookTest {
       book.addTransaction(t4);
       book.addTransaction(t5);
 
-      Collection<Transaction> inFebruary = book.getTransactionsForMonth(new TransactionInMonthCondition(2017, 2));
+      TransactionCondition conditionInFebruary = new TransactionInMonthCondition(2017, 2);
+      Collection<Transaction> inFebruary = book.getTransactionsForCondition(conditionInFebruary);
       assertEquals(3, inFebruary.size());
       assertTrue(inFebruary.contains(t1));
       assertTrue(inFebruary.contains(t2));
       assertTrue(inFebruary.contains(t4));
 
-      Collection<Transaction> inMarch = book.getTransactionsForMonth(new TransactionInMonthCondition(2017, 3));
+      TransactionCondition conditionInMarch = new TransactionInMonthCondition(2017, 3);
+      Collection<Transaction> inMarch = book.getTransactionsForCondition(conditionInMarch);
       assertEquals(2, inMarch.size());
       assertTrue(inMarch.contains(t3));
       assertTrue(inMarch.contains(t5));
