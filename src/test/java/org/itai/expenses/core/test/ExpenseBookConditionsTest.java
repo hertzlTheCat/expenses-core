@@ -9,6 +9,8 @@ import org.itai.expenses.core.Expense;
 import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Income;
 import org.itai.expenses.core.Transaction;
+import org.itai.expenses.core.condition.ExpenseCondition;
+import org.itai.expenses.core.condition.IncomeCondition;
 import org.itai.expenses.core.condition.TransactionCondition;
 import org.itai.expenses.core.condition.TransactionInInclusivePeriodCondition;
 import org.itai.expenses.core.condition.TransactionInMonthCondition;
@@ -83,4 +85,34 @@ public class ExpenseBookConditionsTest {
 	   assert (inPeriod.contains(transactions[6]));
 	   assertEquals(4, inPeriod.size());
 	}
+
+   @Test
+   public void getAllExpensesAndIncomes() {
+      Transaction[] transactions = new Transaction[]
+         {new Income(4000, "Salary", "Salary",             new DateTime(2017, 2, 1, 0, 0))  //0
+         ,new Expense(450, "Lunch", "Food",                new DateTime(2017, 2, 10, 0, 0)) //1
+         ,new Expense(120, "Massage", "Health",            new DateTime(2017, 2, 14, 0, 0)) //2
+         ,new Expense(120, "Massage", "Health",            new DateTime(2017, 2, 15, 0, 0)) //3
+         ,new Expense(100, "Trader Joe's", "Food at home", new DateTime(2017, 3, 1, 0, 0))  //4
+         ,new Income(4000, "Salary", "Salary",             new DateTime(2017, 3, 1, 0, 0))  //5
+         ,new Expense(10, "Amazon", "Nails",               new DateTime(2017, 3, 9, 0, 0))  //6
+         ,new Expense(10, "Amazon", "Nails",               new DateTime(2017, 3, 10, 0, 0)) //7
+         };
+      ExpenseBook book = ExpenseBook.buildBook(Arrays.asList(transactions));
+
+      Collection<Transaction> incomes = book.getTransactions(new IncomeCondition());
+      assertEquals(2, incomes.size());
+      assert (incomes.contains(transactions[0]));
+      assert (incomes.contains(transactions[5]));
+
+      Collection<Transaction> expenses = book.getTransactions(new ExpenseCondition());
+      assertEquals(6, expenses.size());
+      assert (expenses.contains(transactions[1]));
+      assert (expenses.contains(transactions[2]));
+      assert (expenses.contains(transactions[3]));
+      assert (expenses.contains(transactions[4]));
+      assert (expenses.contains(transactions[6]));
+      assert (expenses.contains(transactions[7]));
+   }
+
 }
