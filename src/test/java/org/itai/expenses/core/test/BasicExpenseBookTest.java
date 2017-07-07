@@ -1,4 +1,4 @@
-package org.itai.expenses_core.test;
+package org.itai.expenses.core.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
