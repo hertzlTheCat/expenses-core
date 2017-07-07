@@ -47,7 +47,7 @@ public class ExpenseBook {
       return Collections.unmodifiableCollection(this.transactions);
    }
 
-   public Collection<Transaction> getTransactionsForCondition(TransactionCondition condition) {
+   public Collection<Transaction> getTransactions(TransactionCondition condition) {
       List<Transaction> toReturn = this.transactions.stream()
          .filter(t -> condition.isMatch(t))
          .collect(Collectors.toList());
