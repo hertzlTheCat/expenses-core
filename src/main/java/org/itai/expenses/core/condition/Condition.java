@@ -2,7 +2,7 @@ package org.itai.expenses.core.condition;
 
 import org.itai.expenses.core.Transaction;
 
-public interface TransactionCondition {
+public interface Condition {
 
    /**
     * Takes a transaction and returns true if it matches the condition.

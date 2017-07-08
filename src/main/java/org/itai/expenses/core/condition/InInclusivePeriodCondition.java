@@ -3,7 +3,7 @@ package org.itai.expenses.core.condition;
 import org.itai.expenses.core.Transaction;
 import org.joda.time.DateTime;
 
-public class TransactionInInclusivePeriodCondition implements TransactionCondition {
+public class InInclusivePeriodCondition implements Condition {
 
    private DateTime from;
    private DateTime to;
@@ -16,7 +16,7 @@ public class TransactionInInclusivePeriodCondition implements TransactionConditi
     * @param to upper date boundary, transactions that occurred on this date match
     * the condition
     */
-   public TransactionInInclusivePeriodCondition(DateTime from, DateTime to) {
+   public InInclusivePeriodCondition(DateTime from, DateTime to) {
       this.from = from.minusDays(1);
       this.to = to.plusDays(1);
    }

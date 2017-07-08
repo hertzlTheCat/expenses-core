@@ -2,7 +2,7 @@ package org.itai.expenses.core.condition;
 
 import org.itai.expenses.core.Transaction;
 
-public class TransactionTypeCondition implements TransactionCondition {
+public class TransactionTypeCondition implements Condition {
 
    @SuppressWarnings("rawtypes")
    private Class transactionType;

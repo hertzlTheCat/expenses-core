@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.itai.expenses.core.condition.TransactionCondition;
+import org.itai.expenses.core.condition.Condition;
 import org.joda.time.DateTime;
 
 public class ExpenseBook {
@@ -48,7 +48,7 @@ public class ExpenseBook {
       return Collections.unmodifiableCollection(this.transactions);
    }
 
-   public Collection<Transaction> getTransactions(TransactionCondition condition) {
+   public Collection<Transaction> getTransactions(Condition condition) {
       return getTransactions(getPredicate(condition));
    }
 
@@ -56,7 +56,7 @@ public class ExpenseBook {
     * The conditions are related to each other with logical and. Meaning, a transaction is
     * returned if it passed all conditions.
     */
-   public Collection<Transaction> getTransactions(Collection<TransactionCondition> conditions) {
+   public Collection<Transaction> getTransactions(Collection<Condition> conditions) {
       return getTransactions(getPredicate(conditions));
    }
 
@@ -67,7 +67,7 @@ public class ExpenseBook {
       return Collections.unmodifiableCollection(toReturn);
    }
 
-   private Predicate<Transaction> getPredicate(TransactionCondition condition) {
+   private Predicate<Transaction> getPredicate(Condition condition) {
       return new Predicate<Transaction>() {
          @Override
          public boolean test(Transaction t) {
@@ -76,7 +76,7 @@ public class ExpenseBook {
       };
    }
 
-   private Predicate<Transaction> getPredicate(Collection<TransactionCondition> conditions) {
+   private Predicate<Transaction> getPredicate(Collection<Condition> conditions) {
       return new Predicate<Transaction>() {
          @Override
          public boolean test(Transaction t) {

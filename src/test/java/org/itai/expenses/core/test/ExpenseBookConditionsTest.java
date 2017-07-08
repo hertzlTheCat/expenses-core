@@ -11,9 +11,9 @@ import org.itai.expenses.core.Income;
 import org.itai.expenses.core.Transaction;
 import org.itai.expenses.core.condition.ExpenseCondition;
 import org.itai.expenses.core.condition.IncomeCondition;
-import org.itai.expenses.core.condition.TransactionCondition;
-import org.itai.expenses.core.condition.TransactionInInclusivePeriodCondition;
-import org.itai.expenses.core.condition.TransactionInMonthCondition;
+import org.itai.expenses.core.condition.Condition;
+import org.itai.expenses.core.condition.InInclusivePeriodCondition;
+import org.itai.expenses.core.condition.InMonthCondition;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,21 +46,21 @@ public class ExpenseBookConditionsTest {
 
    @Test
    public void getAllTransactionsFromFebruary() {
-	   TransactionCondition conditionInFebruary = new TransactionInMonthCondition(2017, 2);
+	   Condition conditionInFebruary = new InMonthCondition(2017, 2);
 	   Collection<Transaction> inFebruary = book.getTransactions(conditionInFebruary);
       assertTrasnactionsContain(inFebruary, 1, 2, 3);
    }
 
    @Test
    public void getAllTransactionsFromMarch() {
-	   TransactionCondition conditionInMarch = new TransactionInMonthCondition(2017, 3);
+	   Condition conditionInMarch = new InMonthCondition(2017, 3);
 	   Collection<Transaction> inMarch = book.getTransactions(conditionInMarch);
       assertTrasnactionsContain(inMarch, 4, 5, 6, 7);
    }
 
    @Test
    public void getAllTransactionsFromDecember() {
-      TransactionCondition conditionInDec = new TransactionInMonthCondition(2017, 12);
+      Condition conditionInDec = new InMonthCondition(2017, 12);
 	   Collection<Transaction> inDec = book.getTransactions(conditionInDec);
       assertTrasnactionsContain(inDec, 9, 10, 11);
 	}
@@ -69,7 +69,7 @@ public class ExpenseBookConditionsTest {
    public void getAllTransactionsInPeriod1() {
 	   DateTime from = new DateTime(2017, 2, 15, 0, 0);
 	   DateTime to = new DateTime(2017, 3, 9, 0, 0);
-	   TransactionCondition inPeriodCondition = new TransactionInInclusivePeriodCondition(from, to);
+	   Condition inPeriodCondition = new InInclusivePeriodCondition(from, to);
 	   Collection<Transaction> inPeriod = book.getTransactions(inPeriodCondition);
       assertTrasnactionsContain(inPeriod, 4, 5);
 	}
@@ -78,7 +78,7 @@ public class ExpenseBookConditionsTest {
    public void getAllTransactionsInPeriod2() {
       DateTime from = new DateTime(2017, 3, 4, 0, 0);
       DateTime to = new DateTime(2017, 4, 1, 0, 0);
-      TransactionCondition inPeriodCondition = new TransactionInInclusivePeriodCondition(from, to);
+      Condition inPeriodCondition = new InInclusivePeriodCondition(from, to);
       Collection<Transaction> inPeriod = book.getTransactions(inPeriodCondition);
       assertTrasnactionsContain(inPeriod, 5, 6, 7, 8);
    }
@@ -97,18 +97,18 @@ public class ExpenseBookConditionsTest {
 
    @Test
    public void testMultipleConditions1() {
-      Collection<TransactionCondition> conditions = Arrays.asList(
+      Collection<Condition> conditions = Arrays.asList(
          new ExpenseCondition(),
-         new TransactionInMonthCondition(2017, 3));
+         new InMonthCondition(2017, 3));
       Collection<Transaction> transactions = book.getTransactions(conditions);
       assertTrasnactionsContain(transactions, 4, 5);
    }
 
    @Test
    public void testMultipleConditions2() {
-      Collection<TransactionCondition> conditions = Arrays.asList(
+      Collection<Condition> conditions = Arrays.asList(
          new IncomeCondition(),
-         new TransactionInMonthCondition(2017, 3));
+         new InMonthCondition(2017, 3));
       Collection<Transaction> transactions = book.getTransactions(conditions);
       assertTrasnactionsContain(transactions, 6, 7);
    }
