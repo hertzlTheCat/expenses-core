@@ -95,6 +95,24 @@ public class ExpenseBookConditionsTest {
       assertTrasnactionsContain(incomes, 0, 1, 2, 3, 4, 5, 10, 11, 12);
    }
 
+   @Test
+   public void testMultipleConditions1() {
+      Collection<TransactionCondition> conditions = Arrays.asList(
+         new ExpenseCondition(),
+         new TransactionInMonthCondition(2017, 3));
+      Collection<Transaction> transactions = book.getTransactions(conditions);
+      assertTrasnactionsContain(transactions, 4, 5);
+   }
+
+   @Test
+   public void testMultipleConditions2() {
+      Collection<TransactionCondition> conditions = Arrays.asList(
+         new IncomeCondition(),
+         new TransactionInMonthCondition(2017, 3));
+      Collection<Transaction> transactions = book.getTransactions(conditions);
+      assertTrasnactionsContain(transactions, 6, 7);
+   }
+
    public void assertTrasnactionsContain(Collection<Transaction> queriedTransactions, int... indices) {
       assertEquals(indices.length, queriedTransactions.size());
       for (int index : indices) {

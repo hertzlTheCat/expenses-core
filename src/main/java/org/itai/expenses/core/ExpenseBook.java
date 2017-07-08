@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.itai.expenses.core.condition.TransactionCondition;
@@ -48,9 +49,40 @@ public class ExpenseBook {
    }
 
    public Collection<Transaction> getTransactions(TransactionCondition condition) {
+      return getTransactions(getPredicate(condition));
+   }
+
+   /*
+    * The conditions are related to each other with logical and. Meaning, a transaction is
+    * returned if it passed all conditions.
+    */
+   public Collection<Transaction> getTransactions(Collection<TransactionCondition> conditions) {
+      return getTransactions(getPredicate(conditions));
+   }
+
+   private Collection<Transaction> getTransactions(Predicate<Transaction> predicate) {
       List<Transaction> toReturn = this.transactions.stream()
-         .filter(t -> condition.isMatch(t))
-         .collect(Collectors.toList());
+            .filter(predicate)
+            .collect(Collectors.toList());
       return Collections.unmodifiableCollection(toReturn);
    }
+
+   private Predicate<Transaction> getPredicate(TransactionCondition condition) {
+      return new Predicate<Transaction>() {
+         @Override
+         public boolean test(Transaction t) {
+            return condition.isMatch(t);
+         }
+      };
+   }
+
+   private Predicate<Transaction> getPredicate(Collection<TransactionCondition> conditions) {
+      return new Predicate<Transaction>() {
+         @Override
+         public boolean test(Transaction t) {
+            return conditions.stream().allMatch(c -> c.isMatch(t));
+         }
+      };
+   }
+
 }
