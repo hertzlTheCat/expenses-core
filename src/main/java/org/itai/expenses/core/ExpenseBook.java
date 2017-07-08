@@ -24,11 +24,11 @@ public class ExpenseBook {
       this.transactions = new LinkedList<>();
    }
 
-   public void addExpense(int amount, String description, String category, DateTime time) {
+   public void addExpense(int amount, String description, Category category, DateTime time) {
       this.transactions.add(new Expense(amount, description, category, time));
    }
 
-   public void addIncome(int amount, String description, String category, DateTime time) {
+   public void addIncome(int amount, String description, Category category, DateTime time) {
       this.transactions.add(new Income(amount, description, category, time));
    }
 

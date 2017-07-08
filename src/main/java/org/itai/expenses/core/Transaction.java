@@ -6,10 +6,10 @@ public abstract class Transaction {
 
    private int amount;
    private String description;
-   private String category;
+   private Category category;
    private DateTime time;
 
-   public Transaction(int amount, String description, String category, DateTime time) {
+   public Transaction(int amount, String description, Category category, DateTime time) {
       this.amount = amount;
       this.description = description;
       this.category = category;
@@ -24,7 +24,7 @@ public abstract class Transaction {
       return this.description;
    }
 
-   public String getCategory() {
+   public Category getCategory() {
       return this.category;
    }
 

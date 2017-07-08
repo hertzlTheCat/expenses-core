@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.itai.expenses.core.Category;
 import org.itai.expenses.core.Expense;
 import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Income;
@@ -26,21 +27,26 @@ public class ExpenseBookConditionsTest {
 
    @Before
    public void setup() {
+      Category food = Category.get("food");
+      Category health = Category.get("health");
+      Category salary = Category.get("salary");
+      Category other = Category.get("other");
+      
       transactions = new Transaction[]
-            {new Expense(450, "Lunch", "Food",        new DateTime(2017, 1, 31, 0, 0))  //0
-            ,new Expense(450, "Lunch", "Food",        new DateTime(2017, 2, 1, 0, 0))   //1
-            ,new Expense(450, "Lunch", "Food",        new DateTime(2017, 2, 3, 0, 0))   //2
-            ,new Expense(120, "Massage", "Health",    new DateTime(2017, 2, 6, 0, 0))   //3
-            ,new Expense(120, "Massage", "Health",    new DateTime(2017, 3, 1, 0, 0))   //4
-            ,new Expense(100, "Trader Joe's", "Food", new DateTime(2017, 3, 4, 0, 0))   //5
-            ,new Income(4000, "Salary", "Salary",     new DateTime(2017, 3, 15, 0, 0))  //6
-            ,new Income(4000, "Salary", "Salary",     new DateTime(2017, 3, 31, 0, 0))  //7
-            ,new Income(4000, "Salary", "Salary",     new DateTime(2017, 4, 1, 0, 0))   //8
-            ,new Income(4000, "Salary", "Salary",     new DateTime(2017,12, 1, 0, 0))   //9
-            ,new Expense(100, "Lunch", "Food",        new DateTime(2017,12, 15, 0, 0))  //10
-            ,new Expense(120, "Massage", "Health",    new DateTime(2017,12, 31, 0, 0))  //11
-            ,new Expense(100, "Plush Toy", "Other",   new DateTime(2018, 1, 1, 0, 0))   //12
-            };
+         {new Expense(450, "Lunch", food,        new DateTime(2017, 1, 31, 0, 0))  //0
+         ,new Expense(450, "Lunch", food,        new DateTime(2017, 2, 1, 0, 0))   //1
+         ,new Expense(450, "Lunch", food,        new DateTime(2017, 2, 3, 0, 0))   //2
+         ,new Expense(120, "Massage", health,    new DateTime(2017, 2, 6, 0, 0))   //3
+         ,new Expense(120, "Massage", health,    new DateTime(2017, 3, 1, 0, 0))   //4
+         ,new Expense(100, "Trader Joe's", food, new DateTime(2017, 3, 4, 0, 0))   //5
+         ,new Income(4000, "Salary", salary,     new DateTime(2017, 3, 15, 0, 0))  //6
+         ,new Income(4000, "Salary", salary,     new DateTime(2017, 3, 31, 0, 0))  //7
+         ,new Income(4000, "Salary", salary,     new DateTime(2017, 4, 1, 0, 0))   //8
+         ,new Income(4000, "Salary", salary,     new DateTime(2017,12, 1, 0, 0))   //9
+         ,new Expense(100, "Lunch", food,        new DateTime(2017,12, 15, 0, 0))  //10
+         ,new Expense(120, "Massage", health,    new DateTime(2017,12, 31, 0, 0))  //11
+         ,new Expense(100, "Plush Toy", other,   new DateTime(2018, 1, 1, 0, 0))   //12
+         };
       book = ExpenseBook.buildBook(Arrays.asList(transactions));
    }
 
