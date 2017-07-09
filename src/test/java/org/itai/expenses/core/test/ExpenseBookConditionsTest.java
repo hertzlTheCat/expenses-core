@@ -10,11 +10,12 @@ import org.itai.expenses.core.Expense;
 import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Income;
 import org.itai.expenses.core.Transaction;
-import org.itai.expenses.core.condition.ExpenseCondition;
-import org.itai.expenses.core.condition.IncomeCondition;
+import org.itai.expenses.core.condition.CategoryCondition;
 import org.itai.expenses.core.condition.Condition;
+import org.itai.expenses.core.condition.ExpenseCondition;
 import org.itai.expenses.core.condition.InInclusivePeriodCondition;
 import org.itai.expenses.core.condition.InMonthCondition;
+import org.itai.expenses.core.condition.IncomeCondition;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -102,6 +103,13 @@ public class ExpenseBookConditionsTest {
    }
 
    @Test
+   public void getAllByCategory() {
+      CategoryCondition inFoodCategory = new CategoryCondition(Category.get("food"));
+      Collection<Transaction> foods = book.getTransactions(inFoodCategory);
+      assertTrasnactionsContain(foods, 0, 1, 2, 5, 10);
+   }
+
+   @Test
    public void testMultipleConditions1() {
       Collection<Condition> conditions = Arrays.asList(
          new ExpenseCondition(),
@@ -117,6 +125,26 @@ public class ExpenseBookConditionsTest {
          new InMonthCondition(2017, 3));
       Collection<Transaction> transactions = book.getTransactions(conditions);
       assertTrasnactionsContain(transactions, 6, 7);
+   }
+
+   @Test
+   public void testMultipleConditions3() {
+      Collection<Condition> conditions = Arrays.asList(
+         new ExpenseCondition(),
+         new InMonthCondition(2017, 3),
+         new CategoryCondition(Category.get("food")));
+      Collection<Transaction> transactions = book.getTransactions(conditions);
+      assertTrasnactionsContain(transactions, 5);
+   }
+
+   @Test
+   public void testMultipleConditions4() {
+      Collection<Condition> conditions = Arrays.asList(
+         new ExpenseCondition(),
+         new InMonthCondition(2017, 3),
+         new CategoryCondition(Category.get("sport")));
+      Collection<Transaction> transactions = book.getTransactions(conditions);
+      assert (transactions.isEmpty());
    }
 
    public void assertTrasnactionsContain(Collection<Transaction> queriedTransactions, int... indices) {
