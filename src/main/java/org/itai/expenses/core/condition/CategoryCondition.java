@@ -13,7 +13,8 @@ public class CategoryCondition implements Condition {
 
    @Override
    public boolean isMatch(Transaction transaction) {
-      return category.equals(transaction.getCategory());
+      return category.equals(transaction.getCategory())
+         || category.contains(transaction.getCategory());
    }
 
 }
