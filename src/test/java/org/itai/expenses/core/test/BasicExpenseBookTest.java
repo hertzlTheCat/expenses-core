@@ -84,12 +84,9 @@ public class BasicExpenseBookTest {
       assertEquals(t1.hashCode(), test1.hashCode());
    }
 
-   private void buildBookAndTest(int balance, Transaction[] instructions) {
-      ExpenseBook book1 = buildBookWithExpensesAndIncomes(instructions);
-      testBook(book1, balance, instructions);
-
-      ExpenseBook book2 = ExpenseBook.buildBook(Arrays.asList(instructions));
-      testBook(book2, balance, instructions);
+   private void buildBookAndTest(int balance, Transaction[] transactions) {
+      ExpenseBook book = ExpenseBook.buildBook(Arrays.asList(transactions));
+      testBook(book, balance, transactions);
    }
 
    private void testBook(ExpenseBook book, int balance, Transaction[] instructions) {
@@ -99,18 +96,5 @@ public class BasicExpenseBookTest {
          assertTrue(transactions.contains(i));
 
       assertEquals(balance, book.balance());
-   }
-
-   private ExpenseBook buildBookWithExpensesAndIncomes(Transaction[] instructions) {
-      ExpenseBook book = new ExpenseBook();
-      Arrays.asList(instructions).stream().forEach(t -> addTransaction(book, t));
-      return book;
-   }
-
-   private static void addTransaction(ExpenseBook book, Transaction t) {
-      if (t instanceof Expense)
-         book.addExpense(t.getAmount(), t.getDescription(), t.getCategory(), t.getTime());
-      if (t instanceof Income)
-         book.addIncome(t.getAmount(), t.getDescription(), t.getCategory(), t.getTime());
    }
 }

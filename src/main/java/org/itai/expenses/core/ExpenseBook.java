@@ -1,18 +1,15 @@
 package org.itai.expenses.core;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.itai.expenses.core.condition.Condition;
-import org.joda.time.DateTime;
 
 public class ExpenseBook {
 
-   private Collection<Transaction> transactions;
+   private TransactionGroup transactions;
 
    public static ExpenseBook buildBook(Collection<Transaction> transactions) {
       ExpenseBook book = new ExpenseBook();
@@ -20,16 +17,12 @@ public class ExpenseBook {
       return book;
    }
 
+   public static ExpenseBook buildBook(TransactionGroup transactions) {
+      return buildBook(transactions.getAll());
+   }
+
    public ExpenseBook() {
-      this.transactions = new LinkedList<>();
-   }
-
-   public void addExpense(int amount, String description, Category category, DateTime time) {
-      this.transactions.add(new Expense(amount, description, category, time));
-   }
-
-   public void addIncome(int amount, String description, Category category, DateTime time) {
-      this.transactions.add(new Income(amount, description, category, time));
+      this.transactions = new TransactionGroup();
    }
 
    public void addTransaction(Transaction t) {
@@ -44,11 +37,11 @@ public class ExpenseBook {
       return balance;
    }
 
-   public Collection<Transaction> getTransactions() {
-      return Collections.unmodifiableCollection(this.transactions);
+   public TransactionGroup getTransactions() {
+      return TransactionGroup.unmodifiableCollection(this.transactions);
    }
 
-   public Collection<Transaction> getTransactions(Condition condition) {
+   public TransactionGroup getTransactions(Condition condition) {
       return getTransactions(getPredicate(condition));
    }
 
@@ -56,15 +49,15 @@ public class ExpenseBook {
     * The conditions are related to each other with logical and. Meaning, a transaction is
     * returned if it passed all conditions.
     */
-   public Collection<Transaction> getTransactions(Collection<Condition> conditions) {
+   public TransactionGroup getTransactions(Collection<Condition> conditions) {
       return getTransactions(getPredicate(conditions));
    }
 
-   private Collection<Transaction> getTransactions(Predicate<Transaction> predicate) {
+   private TransactionGroup getTransactions(Predicate<Transaction> predicate) {
       List<Transaction> toReturn = this.transactions.stream()
             .filter(predicate)
             .collect(Collectors.toList());
-      return Collections.unmodifiableCollection(toReturn);
+      return TransactionGroup.unmodifiableCollection(toReturn);
    }
 
    private Predicate<Transaction> getPredicate(Condition condition) {

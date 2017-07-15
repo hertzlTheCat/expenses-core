@@ -3,12 +3,12 @@ package org.itai.expenses.core.test;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
-import java.util.Collection;
 
 import org.itai.expenses.core.Category;
 import org.itai.expenses.core.Expense;
 import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Transaction;
+import org.itai.expenses.core.TransactionGroup;
 import org.itai.expenses.core.condition.CategoryCondition;
 import org.itai.expenses.core.condition.Condition;
 import org.joda.time.DateTime;
@@ -32,7 +32,7 @@ public class CategoryTreeTest {
       ExpenseBook book = ExpenseBook.buildBook(Arrays.asList(transactions));
       
       Condition inFoodCategory = new CategoryCondition(food);
-      Collection<Transaction> foodTransactions = book.getTransactions(inFoodCategory);
+      TransactionGroup foodTransactions = book.getTransactions(inFoodCategory);
       assertEquals(3, foodTransactions.size());
       assert (foodTransactions.contains(transactions[0]));
       assert (foodTransactions.contains(transactions[0]));
