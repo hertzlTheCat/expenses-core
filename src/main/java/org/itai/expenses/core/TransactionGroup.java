@@ -44,4 +44,12 @@ public class TransactionGroup extends AbstractCollection<Transaction> implements
    public Collection<Transaction> getAll() {
       return Collections.unmodifiableCollection(this.transactions);
    }
+
+   public int balance() {
+      int balance = 0;
+      for (Transaction t : transactions) {
+         balance += t.getDelta();
+      }
+      return balance;
+   }
 }

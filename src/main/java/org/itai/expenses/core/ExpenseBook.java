@@ -30,11 +30,7 @@ public class ExpenseBook {
    }
 
    public int balance() {
-      int balance = 0;
-      for (Transaction t : transactions) {
-         balance += t.getDelta();
-      }
-      return balance;
+      return this.transactions.balance();
    }
 
    public TransactionGroup getTransactions() {
