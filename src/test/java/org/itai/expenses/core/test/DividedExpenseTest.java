@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 
 import org.itai.expenses.core.Category;
-import org.itai.expenses.core.DividedExpense;
+import org.itai.expenses.core.DividedExpenseDecorator;
 import org.itai.expenses.core.Expense;
 import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Transaction;
@@ -29,11 +29,11 @@ public class DividedExpenseTest {
       Category health = Category.get("health");
 
       this.transactions = new Transaction[] {
-           new Expense(450, "Lunch", food, new DateTime(2017, 1, 31, 0, 0))                         // 0
-         , new DividedExpense(450, "Lunch", food, new DateTime(2017, 2, 1, 0, 0), 2, "Julio")       // 1
-         , new Expense(450, "Lunch", food, new DateTime(2017, 2, 3, 0, 0))                          // 2
-         , new Expense(120, "Massage", health, new DateTime(2017, 2, 6, 0, 0))                      // 3
-         , new DividedExpense(120, "Trader Joe's", food, new DateTime(2017, 3, 4, 0, 0), 3, "Itai") // 4
+           new Expense(450, "Lunch", food, new DateTime(2017, 1, 31, 0, 0))
+         , new DividedExpenseDecorator(new Expense(450, "Lunch", food, new DateTime(2017, 2, 1, 0, 0)), 2, "Julio")
+         , new Expense(450, "Lunch", food, new DateTime(2017, 2, 3, 0, 0))
+         , new Expense(120, "Massage", health, new DateTime(2017, 2, 6, 0, 0))
+         , new DividedExpenseDecorator(new Expense(120, "Trader Joe's", food, new DateTime(2017, 3, 4, 0, 0)), 3, "Itai")
       };
       this.book = ExpenseBook.buildBook(Arrays.asList(transactions));
    }

@@ -19,4 +19,14 @@ public interface Transaction {
     */
    float getDelta();
 
+   /**
+    * Since some of the transaction types are build with a decorator, it is not
+    * possible to use instanceof, or other class hierarchy questions about
+    * transaction objects. This method is used to check if an object implements a
+    * Transaction, by inheritance or composition (decoration).
+    *
+    * @param transactionType
+    * @return true if object is a transaction of type {@code TransactionType}
+    */
+   boolean isA(Class<Transaction> transactionType);
 }

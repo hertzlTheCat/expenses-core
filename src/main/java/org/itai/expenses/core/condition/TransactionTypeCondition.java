@@ -11,8 +11,9 @@ public class TransactionTypeCondition implements Condition {
       this.transactionType = transactionType;
    }
 
+   @SuppressWarnings("unchecked")
    @Override
    public boolean isMatch(Transaction transaction) {
-      return transactionType.isInstance(transaction);
+      return transaction.isA(transactionType);
    }
 }
