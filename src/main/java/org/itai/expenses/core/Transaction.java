@@ -2,49 +2,21 @@ package org.itai.expenses.core;
 
 import org.joda.time.DateTime;
 
-public abstract class Transaction {
+public interface Transaction {
 
-   private float amount;
-   private String description;
-   private Category category;
-   private DateTime time;
+   float getAmount();
 
-   public Transaction(float amount, String description, Category category, DateTime time) {
-      this.amount = amount;
-      this.description = description;
-      this.category = category;
-      this.time = time;
-   }
+   String getDescription();
 
-   public float getAmount() {
-      return this.amount;
-   }
+   Category getCategory();
 
-   public String getDescription() {
-      return this.description;
-   }
+   DateTime getTime();
 
-   public Category getCategory() {
-      return this.category;
-   }
+   /*
+    * Returns the value that should be added to the balance when this transaction
+    * is registered. For example, if t.getAmount() == 10, and the t is an expense,
+    * -10 will be returned. If t is an income then +10 is returned.
+    */
+   float getDelta();
 
-   public DateTime getTime() {
-      return this.time;
-   }
-
-   public abstract float getDelta();
-
-   @Override
-   public boolean equals(Object obj) {
-      if (!(obj instanceof Transaction)) {
-         return false;
-      }
-      return this.hashCode() == obj.hashCode();
-   }
-
-   @Override
-   public int hashCode() {
-      return (this.getDescription() + amount + this.getCategory() + this.getTime().hashCode() + this.getClass())
-            .hashCode();
-   }
 }

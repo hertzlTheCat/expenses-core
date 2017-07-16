@@ -2,7 +2,7 @@ package org.itai.expenses.core;
 
 import org.joda.time.DateTime;
 
-public class Expense extends Transaction {
+public class Expense extends AbstractTransaction implements Transaction {
 
    public Expense(float amount, String description, Category category, DateTime time) {
       super(amount, description, category, time);
