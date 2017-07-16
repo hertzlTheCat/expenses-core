@@ -13,6 +13,6 @@ public class TransactionTypeCondition implements Condition {
 
    @Override
    public boolean isMatch(Transaction transaction) {
-      return transaction.getClass().isAssignableFrom(transactionType);
+      return transactionType.isInstance(transaction);
    }
 }
