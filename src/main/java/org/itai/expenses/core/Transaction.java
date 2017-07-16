@@ -4,19 +4,19 @@ import org.joda.time.DateTime;
 
 public abstract class Transaction {
 
-   private int amount;
+   private float amount;
    private String description;
    private Category category;
    private DateTime time;
 
-   public Transaction(int amount, String description, Category category, DateTime time) {
+   public Transaction(float amount, String description, Category category, DateTime time) {
       this.amount = amount;
       this.description = description;
       this.category = category;
       this.time = time;
    }
 
-   public int getAmount() {
+   public float getAmount() {
       return this.amount;
    }
 
@@ -32,7 +32,7 @@ public abstract class Transaction {
       return this.time;
    }
 
-   public abstract int getDelta();
+   public abstract float getDelta();
 
    @Override
    public boolean equals(Object obj) {

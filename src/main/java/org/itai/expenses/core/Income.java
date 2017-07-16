@@ -9,7 +9,7 @@ public class Income extends Transaction {
    }
 
    @Override
-   public int getDelta() {
+   public float getDelta() {
       return +1 * getAmount();
    }
 

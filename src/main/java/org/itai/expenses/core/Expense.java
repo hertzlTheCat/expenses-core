@@ -4,12 +4,12 @@ import org.joda.time.DateTime;
 
 public class Expense extends Transaction {
 
-   public Expense(int amount, String description, Category category, DateTime time) {
+   public Expense(float amount, String description, Category category, DateTime time) {
       super(amount, description, category, time);
    }
 
    @Override
-   public int getDelta() {
+   public float getDelta() {
       return -1 * this.getAmount();
    }
 
