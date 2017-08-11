@@ -1,77 +1,48 @@
 package org.itai.expenses.core;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.itai.expenses.core.condition.Condition;
 
-public class ExpenseBook {
+public interface ExpenseBook {
 
-   private TransactionGroup transactions;
+	/**
+	 * Adds a transaction to the expense book
+	 *
+	 * @param Transaction
+	 */
+	void addTransaction(Transaction transaction);
 
-   public static ExpenseBook buildBook(Collection<Transaction> transactions) {
-      ExpenseBook book = new ExpenseBook();
-      transactions.stream().forEach(t -> book.addTransaction(t));
-      return book;
-   }
+	/**
+	 * Calculates and returns the balance
+	 *
+	 * @return balance
+	 */
+	int balance();
 
-   public static ExpenseBook buildBook(TransactionGroup transactions) {
-      return buildBook(transactions.getAll());
-   }
+	// TODO balance() limited in time
 
-   public ExpenseBook() {
-      this.transactions = new TransactionGroup();
-   }
+	/**
+	 * @return TransactionGroup containing all transaction in expense book
+	 */
+	TransactionGroup getTransactions();
 
-   public void addTransaction(Transaction t) {
-      this.transactions.add(t);
-   }
+	/**
+	 * Returns a transaction group containing  all transactions in the expense book that meet
+	 * the given {@code condition}.
+	 *
+	 * @param condition
+	 * @return TransactionGroup
+	 */
+	TransactionGroup getTransactions(Condition condition);
 
-   public int balance() {
-      return this.transactions.balance();
-   }
-
-   public TransactionGroup getTransactions() {
-      return TransactionGroup.unmodifiableCollection(this.transactions);
-   }
-
-   public TransactionGroup getTransactions(Condition condition) {
-      return getTransactions(getPredicate(condition));
-   }
-
-   /*
-    * The conditions are related to each other with logical and. Meaning, a transaction is
-    * returned if it passed all conditions.
-    */
-   public TransactionGroup getTransactions(Collection<Condition> conditions) {
-      return getTransactions(getPredicate(conditions));
-   }
-
-   private TransactionGroup getTransactions(Predicate<Transaction> predicate) {
-      List<Transaction> toReturn = this.transactions.stream()
-            .filter(predicate)
-            .collect(Collectors.toList());
-      return TransactionGroup.unmodifiableCollection(toReturn);
-   }
-
-   private Predicate<Transaction> getPredicate(Condition condition) {
-      return new Predicate<Transaction>() {
-         @Override
-         public boolean test(Transaction t) {
-            return condition.isMatch(t);
-         }
-      };
-   }
-
-   private Predicate<Transaction> getPredicate(Collection<Condition> conditions) {
-      return new Predicate<Transaction>() {
-         @Override
-         public boolean test(Transaction t) {
-            return conditions.stream().allMatch(c -> c.isMatch(t));
-         }
-      };
-   }
+	/**
+	 * Returns all transactions in the expense book that meet all the conditions in {@code conditions}.
+	 * That is, the conditions are related to each other with logical and.
+	 *
+	 * @param conditions
+	 * @return TransactionGroup
+	 */
+	TransactionGroup getTransactions(Collection<Condition> conditions);
 
 }

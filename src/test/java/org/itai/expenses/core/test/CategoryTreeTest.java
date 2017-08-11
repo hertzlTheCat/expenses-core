@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import org.itai.expenses.core.Category;
 import org.itai.expenses.core.Expense;
+import org.itai.expenses.core.DefaultExpenseBook;
 import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Transaction;
 import org.itai.expenses.core.TransactionGroup;
@@ -29,7 +30,7 @@ public class CategoryTreeTest {
             ,new Expense(450, "Lunch", food,               new DateTime(2017, 2, 3, 0, 0))   //2
             ,new Expense(450, "Gym",  gym,                 new DateTime(2017, 2, 4, 0 ,0))   //3
             };
-      ExpenseBook book = ExpenseBook.buildBook(Arrays.asList(transactions));
+      ExpenseBook book = DefaultExpenseBook.buildBook(Arrays.asList(transactions));
       
       Condition inFoodCategory = new CategoryCondition(food);
       TransactionGroup foodTransactions = book.getTransactions(inFoodCategory);

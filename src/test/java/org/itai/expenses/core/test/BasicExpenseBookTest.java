@@ -9,13 +9,44 @@ import java.util.Collection;
 
 import org.itai.expenses.core.Category;
 import org.itai.expenses.core.Expense;
+import org.itai.expenses.core.DefaultExpenseBook;
 import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Income;
+import org.itai.expenses.core.PersistentExpenseBookDecorator;
 import org.itai.expenses.core.Transaction;
+import org.itai.expenses.core.TransactionGroup;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
 public class BasicExpenseBookTest {
+
+	public static class Instructions {
+		public Transaction[] transactions;
+		public int balance;
+		public Instructions(Transaction[] transactions, int balance) {
+			this.transactions = transactions;
+			this.balance = balance;
+		}
+	}
+
+	public static Instructions[] instructions = new Instructions[] {
+	    new Instructions(new Transaction[] {
+	                     }, 0),
+		new Instructions(new Transaction[] {
+			                new Expense(100, "Lunch", Category.get("Food outside"), new DateTime(2017, 1, 1, 10, 30))
+	                     }, -100),
+		new Instructions(new Transaction[] {
+			                new Expense(50, "Lunch", Category.get("Food outside"), new DateTime(2017, 1, 1, 10, 30)),
+			                new Expense(20, "Book", Category.get("Books"), new DateTime(2017, 1, 2, 11, 45)),
+			                new Income(1000, "Salary", Category.get("Salary"), new DateTime(2017, 1, 1, 0, 0))
+			             }, 1000 - 50 - 20),
+		new Instructions(new Transaction[] {
+				            new Income(460, "Found on the street", Category.get("Other"), new DateTime(2017, 1, 5, 0, 0)),
+		                    new Expense(50, "Lunch", Category.get("Food outside"), new DateTime(2017, 1, 6, 10, 30)),
+		                    new Expense(120, "Massage", Category.get("Health"), new DateTime(2017, 1, 11, 22, 40)),
+		                    new Income(4000, "Salary", Category.get("Salary"), new DateTime(2017, 1, 1, 0, 0))
+		                 }, 460 + 4000 - 120 -50)
+   };
 
    @Test
    public void transactionEquals() {
@@ -44,34 +75,10 @@ public class BasicExpenseBookTest {
    }
 
    @Test
-   public void buildBook0() {
-      buildBookAndTest(0, new Transaction[] {});
-   }
-
-   @Test
-   public void buildBook1() {
-      buildBookAndTest(-100, new Transaction[]
-         {new Expense(100, "Lunch", Category.get("Food outside"), new DateTime(2017, 1, 1, 10, 30))
-         });
-   }
-
-   @Test
-   public void buildBooks2() {
-      buildBookAndTest(1000 - 50 - 20, new Transaction[]
-         {new Expense(50, "Lunch", Category.get("Food outside"), new DateTime(2017, 1, 1, 10, 30))
-         ,new Expense(20, "Book", Category.get("Books"), new DateTime(2017, 1, 2, 11, 45))
-         ,new Income(1000, "Salary", Category.get("Salary"), new DateTime(2017, 1, 1, 0, 0))
-         });
-   }
-
-   @Test
-   public void buildBook3() {
-      buildBookAndTest(460 + 4000 - 50 - 120, new Transaction[]
-         {new Income(460, "Found on the street", Category.get("Other"), new DateTime(2017, 1, 5, 0, 0))
-         ,new Expense(50, "Lunch", Category.get("Food outside"), new DateTime(2017, 1, 6, 10, 30))
-         ,new Expense(120, "Massage", Category.get("Health"), new DateTime(2017, 1, 11, 22, 40))
-         ,new Income(4000, "Salary", Category.get("Salary"), new DateTime(2017, 1, 1, 0, 0))
-         });
+   public void buildBook() {
+	   for (Instructions i : BasicExpenseBookTest.instructions) {
+		   buildBookAndTest(i.balance, i.transactions);
+	   }
    }
 
    private void transactionsAreNotEqual(Transaction t1, Transaction test2) {
@@ -85,7 +92,7 @@ public class BasicExpenseBookTest {
    }
 
    private void buildBookAndTest(int balance, Transaction[] transactions) {
-      ExpenseBook book = ExpenseBook.buildBook(Arrays.asList(transactions));
+      ExpenseBook book = DefaultExpenseBook.buildBook(Arrays.asList(transactions));
       testBook(book, balance, transactions);
    }
 

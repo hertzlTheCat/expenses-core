@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.itai.expenses.core.Category;
 import org.itai.expenses.core.DividedExpenseDecorator;
 import org.itai.expenses.core.Expense;
+import org.itai.expenses.core.DefaultExpenseBook;
 import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Transaction;
 import org.itai.expenses.core.TransactionGroup;
@@ -35,7 +36,7 @@ public class DividedExpenseTest {
          , new Expense(120, "Massage", health, new DateTime(2017, 2, 6, 0, 0))
          , new DividedExpenseDecorator(new Expense(120, "Trader Joe's", food, new DateTime(2017, 3, 4, 0, 0)), 3, "Itai")
       };
-      this.book = ExpenseBook.buildBook(Arrays.asList(transactions));
+      this.book = DefaultExpenseBook.buildBook(Arrays.asList(transactions));
    }
 
    @Test

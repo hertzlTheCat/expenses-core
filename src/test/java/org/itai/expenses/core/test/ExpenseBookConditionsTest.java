@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import org.itai.expenses.core.Category;
 import org.itai.expenses.core.Expense;
+import org.itai.expenses.core.DefaultExpenseBook;
 import org.itai.expenses.core.ExpenseBook;
 import org.itai.expenses.core.Income;
 import org.itai.expenses.core.Transaction;
@@ -48,7 +49,7 @@ public class ExpenseBookConditionsTest {
          ,new Expense(120, "Massage", health,    new DateTime(2017,12, 31, 0, 0))  //11
          ,new Expense(100, "Plush Toy", other,   new DateTime(2018, 1, 1, 0, 0))   //12
          };
-      book = ExpenseBook.buildBook(Arrays.asList(transactions));
+      book = DefaultExpenseBook.buildBook(Arrays.asList(transactions));
    }
 
    @Test
